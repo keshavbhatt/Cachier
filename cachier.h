@@ -68,7 +68,7 @@ public:
    * @param filename full file path
    * @param content optional content to store in the cache file created
    * @param overwrite whether to overwrite content if cache entry already exists
-   * @return hash key which was used to create cache entry
+   * @return The computed hash result object.
    */
   HashResult addCacheFile(const std::string &filename,
                           const std::string &content = "",
@@ -101,14 +101,14 @@ public:
    * Check if cache exists for the given hash key
    *
    * @brief cacheExists
-   * @param hash
-   * @return
+   * @param The key hash key for cache entry
+   * @return true if cache exists for provided key
    */
-  bool cacheExists(const std::size_t &hash) {
+  bool cacheExists(const std::size_t &key) {
     // Check if file is in cache_store_path
     return fileExists(cache_store_path +
                       std::filesystem::path::preferred_separator +
-                      std::to_string(hash));
+                      std::to_string(key));
   }
 
   /**
@@ -117,7 +117,7 @@ public:
    * cached otherwise false
    *
    * @brief cacheExists
-   * @param filename full file path
+   * @param filename The filename for which cache presense is checked
    * @return true if file exists in cache registry
    */
   bool cacheExists(const std::string &filename) {
@@ -147,7 +147,7 @@ public:
    *
    * @brief computeHash
    * @param filename The File path for which the hash to be computed.
-   * @return The computed hash value if successful, 0 otherwise.
+   * @return The computed hash result object.
    */
   HashResult computeHash(const std::string &filename) {
 
