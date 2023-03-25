@@ -107,9 +107,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5fc566a8329075b870fe9f83e1d4d085"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structCachier_1_1HashResult.html">HashResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#a5fc566a8329075b870fe9f83e1d4d085">addCacheFile</a> (const std::string &amp;filename, const std::string &amp;content=&quot;&quot;, <a class="el" href="classCachier.html#aefeed9d35728f5a3121253089f8c07d1">FileCacheOption</a> overwrite=DONT_OVERWRITE_CACHE)</td></tr>
 <tr class="memdesc:a5fc566a8329075b870fe9f83e1d4d085"><td class="mdescLeft">&#160;</td><td class="mdescRight">addFile  <br /></td></tr>
 <tr class="separator:a5fc566a8329075b870fe9f83e1d4d085"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03535bc0fbf4a121711309b3552e751e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#a03535bc0fbf4a121711309b3552e751e">cacheExists</a> (const std::size_t &amp;hash)</td></tr>
-<tr class="memdesc:a03535bc0fbf4a121711309b3552e751e"><td class="mdescLeft">&#160;</td><td class="mdescRight">cacheExists  <br /></td></tr>
-<tr class="separator:a03535bc0fbf4a121711309b3552e751e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a427732270473941ef43ffac642f3f835"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#a427732270473941ef43ffac642f3f835">cacheExists</a> (const std::size_t &amp;key)</td></tr>
+<tr class="memdesc:a427732270473941ef43ffac642f3f835"><td class="mdescLeft">&#160;</td><td class="mdescRight">cacheExists  <br /></td></tr>
+<tr class="separator:a427732270473941ef43ffac642f3f835"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc3fc622eb1a706e17a666091f30cffe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#afc3fc622eb1a706e17a666091f30cffe">cacheExists</a> (const std::string &amp;filename)</td></tr>
 <tr class="memdesc:afc3fc622eb1a706e17a666091f30cffe"><td class="mdescLeft">&#160;</td><td class="mdescRight">cacheExists  <br /></td></tr>
 <tr class="separator:afc3fc622eb1a706e17a666091f30cffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -177,12 +177,12 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>hash key which was used to create cache entry </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The computed hash result object. </dd></dl>
 
 </div>
 </div>
-<a id="a03535bc0fbf4a121711309b3552e751e" name="a03535bc0fbf4a121711309b3552e751e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03535bc0fbf4a121711309b3552e751e">&#9670;&#160;</a></span>cacheExists() <span class="overload">[1/2]</span></h2>
+<a id="a427732270473941ef43ffac642f3f835" name="a427732270473941ef43ffac642f3f835"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a427732270473941ef43ffac642f3f835">&#9670;&#160;</a></span>cacheExists() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -194,7 +194,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
           <td class="memname">bool Cachier::cacheExists </td>
           <td>(</td>
           <td class="paramtype">const std::size_t &amp;&#160;</td>
-          <td class="paramname"><em>hash</em></td><td>)</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -209,11 +209,11 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
 <p>Check if cache exists for the given hash key</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">hash</td><td></td></tr>
+    <tr><td class="paramname">The</td><td>key hash key for cache entry </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if cache exists for provided key </dd></dl>
 
 </div>
 </div>
@@ -245,7 +245,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
 <p>Check cache registry and match it with computed hash using file data. If hash matches and there is an entry, return true indicating file is cached otherwise false</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filename</td><td>full file path </td></tr>
+    <tr><td class="paramname">filename</td><td>The filename for which cache presense is checked </td></tr>
   </table>
   </dd>
 </dl>
@@ -290,7 +290,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The computed hash value if successful, 0 otherwise. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The computed hash result object. </dd></dl>
 
 </div>
 </div>
