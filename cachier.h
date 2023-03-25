@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <sys/stat.h>
@@ -20,10 +21,22 @@
  */
 class Cachier {
 public:
+  /**
+   * @brief The FileCacheOption enum
+   */
   enum FileCacheOption {
     ENSURE_CACHE_STORE_PATH,
     OVERWRITE_CACHE,
     DONT_OVERWRITE_CACHE
+  };
+
+  /**
+   * HashResult holds the hash key and error flag
+   * @brief The HashResult class
+   */
+  struct HashResult {
+    std::size_t key;
+    std::string error;
   };
 
   Cachier(const std::string &cache_store_path,
@@ -57,34 +70,36 @@ public:
    * @param overwrite whether to overwrite content if cache entry already exists
    * @return hash key which was used to create cache entry
    */
-  std::size_t addCacheFile(const std::string &filename,
-                           const std::string &content = "",
-                           FileCacheOption overwrite = DONT_OVERWRITE_CACHE) {
+  HashResult addCacheFile(const std::string &filename,
+                          const std::string &content = "",
+                          FileCacheOption overwrite = DONT_OVERWRITE_CACHE) {
 
     initCheck();
 
-    // Check if file exists and is a regular file
-    struct stat fileStat;
-    if (stat(filename.c_str(), &fileStat) == -1 || !S_ISREG(fileStat.st_mode)) {
-      std::cerr << "Error: " << filename << " is not a valid file."
-                << std::endl;
-      return 0;
+    // Compute hash
+    HashResult hash_result = computeHash(filename);
+
+    if (hash_result.error != "") {
+      return {0, hash_result.error};
     }
 
-    // Compute hash
-    std::size_t fileHash = computeHash(filename, fileStat);
-
     // Prevent overwrite if cache exists and was asked not to overwrite it
-    if (overwrite == DONT_OVERWRITE_CACHE && cacheExists(fileHash)) {
-      return 00;
+    if (overwrite == DONT_OVERWRITE_CACHE && cacheExists(hash_result.key)) {
+      auto error = "Error: cache exists, not over-writing it.";
+      return {0, error};
     }
 
     // Add file to cache_store_path
-    return createCacheFile(std::to_string(fileHash), content) ? fileHash : 0;
+    bool cache_created =
+        createCacheFile(std::to_string(hash_result.key), content);
+
+    HashResult error = {0, "Error: unable to create cache file."};
+    return cache_created ? hash_result : error;
   }
 
   /**
    * Check if cache exists for the given hash key
+   *
    * @brief cacheExists
    * @param hash
    * @return
@@ -109,21 +124,13 @@ public:
 
     initCheck();
 
-    // Check if file exists and is a regular file
-    struct stat fileStat;
-    if (stat(filename.c_str(), &fileStat) == -1 || !S_ISREG(fileStat.st_mode)) {
-      std::cerr << "Error: " << filename << " is not a valid file."
-                << std::endl;
-      return false;
-    }
-
     // Compute hash
-    std::size_t fileHash = computeHash(filename, fileStat);
+    auto hash_result = computeHash(filename);
 
     // Check if file is in cache_store_path
     return fileExists(cache_store_path +
                       std::filesystem::path::preferred_separator +
-                      std::to_string(fileHash));
+                      std::to_string(hash_result.key));
   }
 
   bool isInitialized() {
@@ -136,19 +143,52 @@ public:
    *  - File name
    *  - File size
    *  - Last modification time
-   *  - First 8 bytes of file aka. file header info
+   *  - First 8 bytes of file aka. file header info.
+   *
    * @brief computeHash
-   * @param filename
-   * @return hash value
+   * @param filename The File path for which the hash to be computed.
+   * @return The computed hash value if successful, 0 otherwise.
    */
-  std::size_t computeHash(const std::string &filename) {
+  HashResult computeHash(const std::string &filename) {
+
     struct stat fileStat;
-    if (stat(filename.c_str(), &fileStat) == -1 || !S_ISREG(fileStat.st_mode)) {
-      std::cerr << "Error: " << filename << " is not a valid file."
-                << std::endl;
-      return 0;
+
+    if (stat(filename.c_str(), &fileStat) != 0 &&
+        !std::filesystem::is_regular_file(filename)) {
+      auto error = "Error: " + filename + " is not a valid file.";
+      return {0, error};
     }
-    return this->computeHash(filename, fileStat);
+
+    // Get file size and modification time
+    size_t fileSize = fileStat.st_size;
+    time_t fileTime = fileStat.st_mtime;
+
+    // Read first 8 bytes of file
+    std::ifstream file(filename, std::ios::binary);
+    std::vector<char> buffer(8);
+    file.read(buffer.data(), 8);
+
+    // Hash file name, size, time, and header info
+    std::string fileHeader(buffer.begin(), buffer.end());
+    std::stringstream ss;
+    ss << fileSize << fileTime << fileHeader;
+    std::string fileString = filename + ss.str();
+    std::size_t fileHash = std::hash<std::string>{}(fileString);
+
+    return {fileHash, ""};
+  }
+
+  /**
+   * Returns data stored in cache for provided key
+   *
+   * @brief getContent
+   * @param key
+   * @return content string stored with key
+   */
+  std::string getContent(const std::string &key) {
+    auto target_cache_file_path =
+        cache_store_path + std::filesystem::path::preferred_separator + key;
+    return read_file_content(target_cache_file_path);
   }
 
 private:
@@ -190,18 +230,24 @@ private:
   }
 
   /**
+   * Checks if the given file path corresponds to an existing file or
+   * directory.
+   *
    * @brief fileExists
    * @param path
-   * @return
+   * @return true if the file or directory specified by path exists, false
+   * otherwise.
    */
   bool fileExists(const std::string &path) {
     return std::filesystem::exists(path);
   }
 
   /**
-   * @brief createDir
-   * @param path
-   * @return
+   * Creates a directory at the specified path using.
+   * If the directory already exists, the function returns false.
+   *
+   * @param path The path of the directory to create.
+   * @return true if the directory was created successfully, false otherwise.
    */
   bool createDir(const std::string &path) {
     if (!std::filesystem::exists(path))
@@ -211,36 +257,29 @@ private:
   }
 
   /**
-   * Create a hash from file data, composed of:
-   *  - File name
-   *  - File size
-   *  - Last modification time
-   *  - First 8 bytes of file aka. file header info
-   * @brief computeHash
-   * @param filename
-   * @param fileStat
-   * @return hash value
+   * Reads the contents of the file and returns it as string.
+   * If the file cannot be opened, an empty string is returned.
+   *
+   * @param filename The name of the file to read.
+   * @return The content of the file as string, or an empty string if the
+   * file cannot be opened.
    */
-  std::size_t computeHash(const std::string &filename, struct stat fileStat) {
-    // Get file size and modification time
-    size_t fileSize = fileStat.st_size;
-    time_t fileTime = fileStat.st_mtime;
-
-    // Read first 8 bytes of file
-    std::ifstream file(filename, std::ios::binary);
-    std::vector<char> buffer(8);
-    file.read(buffer.data(), 8);
-
-    // Hash file name, size, time, and header info
-    std::string fileHeader(buffer.begin(), buffer.end());
-    std::stringstream ss;
-    ss << fileSize << fileTime << fileHeader;
-    std::string fileString = filename + ss.str();
-    std::size_t fileHash = std::hash<std::string>{}(fileString);
-
-    return fileHash;
+  std::string read_file_content(const std::string &filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+      // handle error
+      return "";
+    }
+    std::string content((std::istreambuf_iterator<char>(file)),
+                        (std::istreambuf_iterator<char>()));
+    return content;
   }
 
+  /**
+   * Library initialization checks.
+   *
+   * @brief initCheck
+   */
   void initCheck() {
     if (initialization_checked == false) {
       throw std::runtime_error("Initialization checks were not performed, did "
