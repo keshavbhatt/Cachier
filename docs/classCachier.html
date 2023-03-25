@@ -71,6 +71,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classCachier-members.html">List of all members</a>  </div>
@@ -83,22 +84,29 @@ $(function() {
 
 <p><code>#include &lt;<a class="el" href="cachier_8h_source.html">cachier.h</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structCachier_1_1HashResult.html">HashResult</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The <a class="el" href="structCachier_1_1HashResult.html" title="The HashResult class.">HashResult</a> class.  <a href="structCachier_1_1HashResult.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:aefeed9d35728f5a3121253089f8c07d1"><td class="memItemLeft" align="right" valign="top"><a id="aefeed9d35728f5a3121253089f8c07d1" name="aefeed9d35728f5a3121253089f8c07d1"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>FileCacheOption</b> { <b>ENSURE_CACHE_STORE_PATH</b>
+<tr class="memitem:aefeed9d35728f5a3121253089f8c07d1"><td class="memItemLeft" align="right" valign="top"><a id="aefeed9d35728f5a3121253089f8c07d1" name="aefeed9d35728f5a3121253089f8c07d1"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#aefeed9d35728f5a3121253089f8c07d1">FileCacheOption</a> { <b>ENSURE_CACHE_STORE_PATH</b>
 , <b>OVERWRITE_CACHE</b>
 , <b>DONT_OVERWRITE_CACHE</b>
  }</td></tr>
+<tr class="memdesc:aefeed9d35728f5a3121253089f8c07d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The FileCacheOption enum. <br /></td></tr>
 <tr class="separator:aefeed9d35728f5a3121253089f8c07d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a04d59bb5e7df3bb9551d6f421d08d1c8"><td class="memItemLeft" align="right" valign="top"><a id="a04d59bb5e7df3bb9551d6f421d08d1c8" name="a04d59bb5e7df3bb9551d6f421d08d1c8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Cachier</b> (const std::string &amp;cache_store_path, FileCacheOption ensure_cache_store_path)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Cachier</b> (const std::string &amp;cache_store_path, <a class="el" href="classCachier.html#aefeed9d35728f5a3121253089f8c07d1">FileCacheOption</a> ensure_cache_store_path)</td></tr>
 <tr class="separator:a04d59bb5e7df3bb9551d6f421d08d1c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa260bc00e180c348ccf00f466cb275df"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#aa260bc00e180c348ccf00f466cb275df">addCacheFile</a> (const std::string &amp;filename, const std::string &amp;content=&quot;&quot;, FileCacheOption overwrite=DONT_OVERWRITE_CACHE)</td></tr>
-<tr class="memdesc:aa260bc00e180c348ccf00f466cb275df"><td class="mdescLeft">&#160;</td><td class="mdescRight">addFile  <br /></td></tr>
-<tr class="separator:aa260bc00e180c348ccf00f466cb275df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fc566a8329075b870fe9f83e1d4d085"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structCachier_1_1HashResult.html">HashResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#a5fc566a8329075b870fe9f83e1d4d085">addCacheFile</a> (const std::string &amp;filename, const std::string &amp;content=&quot;&quot;, <a class="el" href="classCachier.html#aefeed9d35728f5a3121253089f8c07d1">FileCacheOption</a> overwrite=DONT_OVERWRITE_CACHE)</td></tr>
+<tr class="memdesc:a5fc566a8329075b870fe9f83e1d4d085"><td class="mdescLeft">&#160;</td><td class="mdescRight">addFile  <br /></td></tr>
+<tr class="separator:a5fc566a8329075b870fe9f83e1d4d085"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03535bc0fbf4a121711309b3552e751e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#a03535bc0fbf4a121711309b3552e751e">cacheExists</a> (const std::size_t &amp;hash)</td></tr>
 <tr class="memdesc:a03535bc0fbf4a121711309b3552e751e"><td class="mdescLeft">&#160;</td><td class="mdescRight">cacheExists  <br /></td></tr>
 <tr class="separator:a03535bc0fbf4a121711309b3552e751e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -108,16 +116,19 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad4f377efc41af39879554dd66597ebae"><td class="memItemLeft" align="right" valign="top"><a id="ad4f377efc41af39879554dd66597ebae" name="ad4f377efc41af39879554dd66597ebae"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()</td></tr>
 <tr class="separator:ad4f377efc41af39879554dd66597ebae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6e572c866de0c053a1ab0432681eec3"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#ad6e572c866de0c053a1ab0432681eec3">computeHash</a> (const std::string &amp;filename)</td></tr>
-<tr class="memdesc:ad6e572c866de0c053a1ab0432681eec3"><td class="mdescLeft">&#160;</td><td class="mdescRight">computeHash  <br /></td></tr>
-<tr class="separator:ad6e572c866de0c053a1ab0432681eec3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee2626d54a40751de3959b40614ece39"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structCachier_1_1HashResult.html">HashResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#aee2626d54a40751de3959b40614ece39">computeHash</a> (const std::string &amp;filename)</td></tr>
+<tr class="memdesc:aee2626d54a40751de3959b40614ece39"><td class="mdescLeft">&#160;</td><td class="mdescRight">computeHash  <br /></td></tr>
+<tr class="separator:aee2626d54a40751de3959b40614ece39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa01abc6109ac16fec98adcbc7f38c58e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCachier.html#aa01abc6109ac16fec98adcbc7f38c58e">getContent</a> (const std::string &amp;key)</td></tr>
+<tr class="memdesc:aa01abc6109ac16fec98adcbc7f38c58e"><td class="mdescLeft">&#160;</td><td class="mdescRight">getContent  <br /></td></tr>
+<tr class="separator:aa01abc6109ac16fec98adcbc7f38c58e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>The <a class="el" href="classCachier.html" title="The Cachier class.">Cachier</a> class. </p>
 <dl class="section author"><dt>Author</dt><dd>Keshav Bhatt <a href="#" onclick="location.href='mai'+'lto:'+'kes'+'ha'+'vnr'+'j@'+'gma'+'il'+'.co'+'m'; return false;">kesha<span class="obfuscator">.nosp@m.</span>vnrj<span class="obfuscator">.nosp@m.</span>@gmai<span class="obfuscator">.nosp@m.</span>l.co<span class="obfuscator">.nosp@m.</span>m</a> </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="aa260bc00e180c348ccf00f466cb275df" name="aa260bc00e180c348ccf00f466cb275df"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa260bc00e180c348ccf00f466cb275df">&#9670;&#160;</a></span>addCacheFile()</h2>
+<a id="a5fc566a8329075b870fe9f83e1d4d085" name="a5fc566a8329075b870fe9f83e1d4d085"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fc566a8329075b870fe9f83e1d4d085">&#9670;&#160;</a></span>addCacheFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -126,7 +137,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t Cachier::addCacheFile </td>
+          <td class="memname"><a class="el" href="structCachier_1_1HashResult.html">HashResult</a> Cachier::addCacheFile </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em>, </td>
@@ -140,7 +151,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">FileCacheOption&#160;</td>
+          <td class="paramtype"><a class="el" href="classCachier.html#aefeed9d35728f5a3121253089f8c07d1">FileCacheOption</a>&#160;</td>
           <td class="paramname"><em>overwrite</em> = <code>DONT_OVERWRITE_CACHE</code>&#160;</td>
         </tr>
         <tr>
@@ -195,7 +206,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
 </div><div class="memdoc">
 
 <p>cacheExists </p>
-<p>Check if cache exists for the given hash key </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Check if cache exists for the given hash key</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">hash</td><td></td></tr>
   </table>
@@ -241,8 +253,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
 
 </div>
 </div>
-<a id="ad6e572c866de0c053a1ab0432681eec3" name="ad6e572c866de0c053a1ab0432681eec3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad6e572c866de0c053a1ab0432681eec3">&#9670;&#160;</a></span>computeHash()</h2>
+<a id="aee2626d54a40751de3959b40614ece39" name="aee2626d54a40751de3959b40614ece39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee2626d54a40751de3959b40614ece39">&#9670;&#160;</a></span>computeHash()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -251,7 +263,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::size_t Cachier::computeHash </td>
+          <td class="memname"><a class="el" href="structCachier_1_1HashResult.html">HashResult</a> Cachier::computeHash </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>filename</em></td><td>)</td>
@@ -270,15 +282,51 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>isInitialized</b> ()<
 <li>File name</li>
 <li>File size</li>
 <li>Last modification time</li>
-<li>First 8 bytes of file aka. file header info <dl class="params"><dt>Parameters</dt><dd>
+<li>First 8 bytes of file aka. file header info.</li>
+</ul>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">filename</td><td></td></tr>
+    <tr><td class="paramname">filename</td><td>The File path for which the hash to be computed. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>hash value </dd></dl>
-</li>
-</ul>
+<dl class="section return"><dt>Returns</dt><dd>The computed hash value if successful, 0 otherwise. </dd></dl>
+
+</div>
+</div>
+<a id="aa01abc6109ac16fec98adcbc7f38c58e" name="aa01abc6109ac16fec98adcbc7f38c58e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa01abc6109ac16fec98adcbc7f38c58e">&#9670;&#160;</a></span>getContent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string Cachier::getContent </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>getContent </p>
+<p>Returns data stored in cache for provided key</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>content string stored with key </dd></dl>
 
 </div>
 </div>
