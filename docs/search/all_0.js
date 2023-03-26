@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['addcachefile_0',['addCacheFile',['../classCachier.html#a5fc566a8329075b870fe9f83e1d4d085',1,'Cachier']]]
+  ['addcache_0',['addCache',['../classCachier.html#acfa539593a77a1007bb85f7b00a52278',1,'Cachier']]]
 ];

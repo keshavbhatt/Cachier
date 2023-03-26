@@ -7,12 +7,10 @@
 #include <fstream>
 #include <iostream>
 #include <limits>
-#include <optional>
 #include <sstream>
 #include <string>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <unordered_map>
 #include <vector>
 
 /**
@@ -22,16 +20,12 @@
 class Cachier {
 public:
   /**
-   * @brief The FileCacheOption enum
+   * @brief The CacheOverwriteOption enum
    */
-  enum FileCacheOption {
-    ENSURE_CACHE_STORE_PATH,
-    OVERWRITE_CACHE,
-    DONT_OVERWRITE_CACHE
-  };
+  enum CacheOverwriteOption { OVERWRITE_CACHE, DONT_OVERWRITE_CACHE };
 
   /**
-   * HashResult holds the hash key and error flag
+   * HashResult holds the hash key and error string
    * @brief The HashResult class
    */
   struct HashResult {
@@ -39,17 +33,27 @@ public:
     std::string error;
   };
 
+  /**
+   * Instantiate Cachier object using provided cache store path.
+   *
+   * @brief Cachier
+   * @param cache_store_path The directory path where cache will be stored.
+   * @param ensure_cache_store_path Try to create cache store path during
+   * cachier object instantiation, default true.
+   */
   Cachier(const std::string &cache_store_path,
-          FileCacheOption ensure_cache_store_path)
+          bool ensure_cache_store_path = true)
       : cache_store_path(cache_store_path) {
+
     // Create cache_store_path if asked
-    if (ensure_cache_store_path == FileCacheOption::ENSURE_CACHE_STORE_PATH) {
+    if (ensure_cache_store_path) {
       createDir(cache_store_path);
     }
 
-    // Check if thr cache_store_path is valid and writable
-    struct stat st;
-    if (!(stat(cache_store_path.c_str(), &st) == 0 && S_ISDIR(st.st_mode) &&
+    // Check if the cache_store_path is valid and writable
+    struct stat dir_stat;
+    if (!(stat(cache_store_path.c_str(), &dir_stat) == 0 &&
+          S_ISDIR(dir_stat.st_mode) &&
           access(cache_store_path.c_str(), W_OK) == 0)) {
       std::cerr
           << "Warning: Cache store path is not valid or not writeable, caching "
@@ -61,18 +65,23 @@ public:
   }
 
   /**
-   * Compute hash or key for file and create a cache entry with given content
-   * in cache_store_path
+   * Compute {@link HashResult} for file and create a cache entry with given
+   * content in cache_store_path.
    *
-   * @brief addFile
-   * @param filename full file path
-   * @param content optional content to store in the cache file created
-   * @param overwrite whether to overwrite content if cache entry already exists
-   * @return The computed hash result object.
+   * @brief addCache
+   * @param filename The complete file path to which the cache needs to be
+   * added.
+   * @param content Optional content or computed data to store in the cache
+   * file.
+   * @param cache_overwrite_option {@link CacheOverwriteOption} option whether
+   * overwrite content if cache entry already exists, Default is {@link
+   * CacheOverwriteOption::DONT_OVERWRITE_CACHE}
+   * @return The computed {@link HashResult} object.
    */
-  HashResult addCacheFile(const std::string &filename,
-                          const std::string &content = "",
-                          FileCacheOption overwrite = DONT_OVERWRITE_CACHE) {
+  HashResult addCache(const std::string &filename,
+                      const std::string &content = "",
+                      const CacheOverwriteOption &cache_overwrite_option =
+                          DONT_OVERWRITE_CACHE) {
 
     initCheck();
 
@@ -84,7 +93,8 @@ public:
     }
 
     // Prevent overwrite if cache exists and was asked not to overwrite it
-    if (overwrite == DONT_OVERWRITE_CACHE && cacheExists(hash_result.key)) {
+    if (cache_overwrite_option == DONT_OVERWRITE_CACHE &&
+        cacheExists(hash_result.key)) {
       auto error = "Error: cache exists, not over-writing it.";
       return {0, error};
     }
@@ -98,11 +108,11 @@ public:
   }
 
   /**
-   * Check if cache exists for the given hash key
+   * Return whether cache exists for the given hash key.
    *
    * @brief cacheExists
-   * @param The key hash key for cache entry
-   * @return true if cache exists for provided key
+   * @param The hash key for cache entry.
+   * @return True if cache exists for provided key, false otherwise.
    */
   bool cacheExists(const std::size_t &key) {
     // Check if file is in cache_store_path
@@ -112,13 +122,14 @@ public:
   }
 
   /**
-   * Check cache registry and match it with computed hash using file data.
-   * If hash matches and there is an entry, return true indicating file is
-   * cached otherwise false
+   * Retunrs whether cache exists for the given filename.
+   * Computes hash using file data and look for a file entry in
+   * cache_store_path, return true if cache entry found indicating file is
+   * cached, otherwise false.
    *
    * @brief cacheExists
-   * @param filename The filename for which cache presense is checked
-   * @return true if file exists in cache registry
+   * @param filename The filename for which cache presense is being checked.
+   * @return True if file exists in cache store path.
    */
   bool cacheExists(const std::string &filename) {
 
@@ -133,13 +144,20 @@ public:
                       std::to_string(hash_result.key));
   }
 
+  /**
+   * Returns the state of library initialization.
+   *
+   * @brief isInitialized
+   * @return True if initialized, false otherwise.
+   */
   bool isInitialized() {
     initialization_checked = true;
     return initialized;
   }
 
   /**
-   * Create a hash from file data, composed of:
+   * Return a {@link HashResult} object containing computed hash from file data
+   * and error if any, The hash is computed using these file stats:
    *  - File name
    *  - File size
    *  - Last modification time
@@ -147,7 +165,7 @@ public:
    *
    * @brief computeHash
    * @param filename The File path for which the hash to be computed.
-   * @return The computed hash result object.
+   * @return The computed {@link HashResult} object.
    */
   HashResult computeHash(const std::string &filename) {
 
@@ -179,11 +197,11 @@ public:
   }
 
   /**
-   * Returns data stored in cache for provided key
+   * Returns data stored in cache for provided key.
    *
    * @brief getContent
-   * @param key
-   * @return content string stored with key
+   * @param key The hash key to use to get content.
+   * @return The content string stored with key.
    */
   std::string getContent(const std::string &key) {
     auto target_cache_file_path =

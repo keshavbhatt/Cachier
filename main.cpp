@@ -1,18 +1,17 @@
 #include "cachier.h"
 #include <iostream>
 
-using FileCacheOption = Cachier::FileCacheOption;
+using FileCacheOption = Cachier::CacheOverwriteOption;
 int main() {
 
   std::string target_file = "/tmp/target_file";
 
-  Cachier cache("/tmp/my_chache_store",
-                FileCacheOption::ENSURE_CACHE_STORE_PATH);
+  Cachier cache("/tmp/my_chache_store");
 
   if (cache.isInitialized()) {
 
     // add a file to the cache
-    Cachier::HashResult cache_result = cache.addCacheFile(
+    Cachier::HashResult cache_result = cache.addCache(
         target_file, "king", FileCacheOption::OVERWRITE_CACHE);
 
     auto key = cache_result.key;
